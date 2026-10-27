@@ -18,3 +18,4 @@ build/
 *.tgz
 bin/
 *.bc
+.vscode/
