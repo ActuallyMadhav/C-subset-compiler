@@ -1,0 +1,25 @@
+// cse15.usc
+// The repeated comparison must be merged. The third has the same predicate but
+// its operands exchanged, so it asks the opposite question and must survive.
+
+int main() {
+    int a;
+    int b;
+
+    a = 2;
+    b = 8;
+
+    if (a < b) {
+        printf("a first\n");
+    }
+
+    if (a < b) {
+        printf("a still first\n");
+    }
+
+    if (b < a) {
+        printf("b first\n");
+    }
+
+    return 0;
+}

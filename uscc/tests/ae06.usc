@@ -1,0 +1,25 @@
+// ae06.usc
+// Loop-invariant expression. Nothing in the body writes a or b, so a * b is
+// available on entry to the body along every path, including the back edge.
+
+int main() {
+    int a;
+    int b;
+    int i;
+    int sum;
+
+    a = 3;
+    b = 5;
+    sum = 0;
+    i = 0;
+
+    sum = a * b;
+
+    while (i < 4) {
+        sum = sum + (a * b);
+        i = i + 1;
+    }
+
+    printf("%d\n", sum);
+    return 0;
+}

@@ -1,0 +1,20 @@
+# LLVM source + build (not our code)
+/llvm-project/
+
+# Symlinks into the LLVM build (no trailing slash, since git treats symlinks as files)
+/llvm
+/bin
+/lib
+
+# Build artifacts
+build/
+*.o
+*.a
+*.dylib
+.DS_Store
+
+# Archives and compiled output
+*.tar.xz
+*.tgz
+bin/
+*.bc

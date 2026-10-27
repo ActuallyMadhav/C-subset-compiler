@@ -1,0 +1,26 @@
+// cse12.usc
+// The repeated comparison must be merged. The third one reads the same operands
+// but asks a different question, so it computes nothing the first one computed
+// and must survive.
+
+int main() {
+    int a;
+    int b;
+
+    a = 1;
+    b = 2;
+
+    if (a < b) {
+        printf("less\n");
+    }
+
+    if (a < b) {
+        printf("still less\n");
+    }
+
+    if (a > b) {
+        printf("greater\n");
+    }
+
+    return 0;
+}

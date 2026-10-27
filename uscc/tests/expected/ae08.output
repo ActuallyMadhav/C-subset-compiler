@@ -1,0 +1,28 @@
+********** Available Expressions Information **********
+********** Function: main, analysis iterates 11 times
+entry:
+  GEN: [0:   %sub = sub i32 %5, %4]
+  KILL: [1:   %sub2 = sub i32 %8, %7] [2:   %add3 = add i32 %9, %sub2] [3:   %add = add i32 %12, 1]
+  IN:
+  OUT: [0:   %sub = sub i32 %5, %4]
+switch.end:
+  GEN: [1:   %sub2 = sub i32 %8, %7]
+  KILL: [2:   %add3 = add i32 %9, %sub2] [3:   %add = add i32 %12, 1]
+  IN:
+  OUT: [1:   %sub2 = sub i32 %8, %7]
+switch.case:
+  GEN:
+  KILL: [0:   %sub = sub i32 %5, %4] [1:   %sub2 = sub i32 %8, %7]
+  IN: [0:   %sub = sub i32 %5, %4]
+  OUT:
+switch.case1:
+  GEN:
+  KILL: [2:   %add3 = add i32 %9, %sub2] [3:   %add = add i32 %12, 1]
+  IN: [0:   %sub = sub i32 %5, %4]
+  OUT: [0:   %sub = sub i32 %5, %4]
+switch.default:
+  GEN:
+  KILL: [2:   %add3 = add i32 %9, %sub2] [3:   %add = add i32 %12, 1]
+  IN: [0:   %sub = sub i32 %5, %4]
+  OUT: [0:   %sub = sub i32 %5, %4]
+

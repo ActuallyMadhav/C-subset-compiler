@@ -1,0 +1,23 @@
+********** Available Expressions Information **********
+********** Function: main, analysis iterates 8 times
+entry:
+  GEN: [0:   %add = add i32 %5, %4] [1:   %gt = icmp sgt i32 %6, 10]
+  KILL: [2:   %add1 = add i32 %8, %7]
+  IN:
+  OUT: [0:   %add = add i32 %5, %4] [1:   %gt = icmp sgt i32 %6, 10]
+if.then:
+  GEN:
+  KILL: [0:   %add = add i32 %5, %4] [2:   %add1 = add i32 %8, %7]
+  IN: [0:   %add = add i32 %5, %4] [1:   %gt = icmp sgt i32 %6, 10]
+  OUT: [1:   %gt = icmp sgt i32 %6, 10]
+if.end:
+  GEN: [2:   %add1 = add i32 %8, %7]
+  KILL: [1:   %gt = icmp sgt i32 %6, 10]
+  IN: [1:   %gt = icmp sgt i32 %6, 10]
+  OUT: [2:   %add1 = add i32 %8, %7]
+if.else:
+  GEN:
+  KILL:
+  IN: [0:   %add = add i32 %5, %4] [1:   %gt = icmp sgt i32 %6, 10]
+  OUT: [0:   %add = add i32 %5, %4] [1:   %gt = icmp sgt i32 %6, 10]
+

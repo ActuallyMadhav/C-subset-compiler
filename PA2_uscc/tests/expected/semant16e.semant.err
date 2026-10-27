@@ -1,0 +1,4 @@
+semant16e.usc:13:23: error: Nested initializer is too deep for array 'b'
+	int b[2] = {{1}, {2}};
+	                     ^
+1 Error(s)

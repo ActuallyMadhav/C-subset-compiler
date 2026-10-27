@@ -1,0 +1,4 @@
+semant17e.usc:13:32: error: Too many initializers for array 'm' of size 2
+	int m[2][2] = {{1, 2, 3}, {4}};
+	                              ^
+1 Error(s)

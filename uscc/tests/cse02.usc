@@ -1,0 +1,27 @@
+// cse02.usc
+// The expression is computed before a branch and recomputed after the merge.
+// Neither arm writes its operands, so it survives the meet.
+
+int main() {
+    int a;
+    int b;
+    int c;
+    int x;
+
+    a = 12;
+    b = 5;
+    c = 0;
+
+    x = a - b;
+
+    if (x > 0) {
+        c = 1;
+    } else {
+        c = 2;
+    }
+
+    x = (a - b) + c;
+
+    printf("%d\n", x);
+    return 0;
+}

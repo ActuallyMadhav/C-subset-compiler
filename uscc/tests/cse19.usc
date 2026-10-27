@@ -1,0 +1,22 @@
+// cse19.usc
+// Exchanging the operands of a comparison exchanges the predicate with it, so
+// asking whether a is below b and whether b is above a is one question and the
+// second form is redundant.
+
+int main() {
+    int a;
+    int b;
+
+    a = 1;
+    b = 2;
+
+    if (a < b) {
+        printf("first\n");
+    }
+
+    if (b > a) {
+        printf("second\n");
+    }
+
+    return 0;
+}

@@ -1,0 +1,44 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [9 x i8] c"greater\0A\00"
+@.str.1 = private unnamed_addr constant [12 x i8] c"still less\0A\00"
+@.str.2 = private unnamed_addr constant [6 x i8] c"less\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @main() {
+entry:
+  %0 = alloca i32, align 4
+  %1 = alloca i32, align 4
+  store i32 1, ptr %1, align 4
+  store i32 2, ptr %0, align 4
+  %2 = load i32, ptr %0, align 4
+  %3 = load i32, ptr %1, align 4
+  %lt = icmp slt i32 %3, %2
+  br i1 %lt, label %if.then, label %if.end
+
+if.then:                                          ; preds = %entry
+  %4 = call i32 (ptr, ...) @printf(ptr @.str.2)
+  br label %if.end
+
+if.end:                                           ; preds = %if.then, %entry
+  br i1 %lt, label %if.then2, label %if.end3
+
+if.then2:                                         ; preds = %if.end
+  %5 = call i32 (ptr, ...) @printf(ptr @.str.1)
+  br label %if.end3
+
+if.end3:                                          ; preds = %if.then2, %if.end
+  %6 = load i32, ptr %0, align 4
+  %7 = load i32, ptr %1, align 4
+  %gt = icmp sgt i32 %7, %6
+  br i1 %gt, label %if.then4, label %if.end5
+
+if.then4:                                         ; preds = %if.end3
+  %8 = call i32 (ptr, ...) @printf(ptr @.str)
+  br label %if.end5
+
+if.end5:                                          ; preds = %if.then4, %if.end3
+  ret i32 0
+}

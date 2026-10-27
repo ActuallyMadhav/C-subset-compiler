@@ -1,0 +1,29 @@
+// ae10.usc
+// Loop containing a conditional with break and continue: several predecessors
+// meet at the loop header, so the solver needs more rounds to converge.
+
+int main() {
+    int a;
+    int b;
+    int i;
+    int sum;
+
+    a = 4;
+    b = 2;
+    sum = 0;
+    i = 0;
+
+    while (i < 10) {
+        i = i + 1;
+        if (i > 6) {
+            break;
+        }
+        if (i < 2) {
+            continue;
+        }
+        sum = sum + (a * b);
+    }
+
+    printf("%d %d\n", sum, i);
+    return 0;
+}

@@ -1,0 +1,15 @@
+Program:
+---Function: int main
+------CompoundStmt:
+---------Decl: int[2][3] m
+------------ArrayInitExpr:
+---------------ArrayInitExpr:
+------------------ConstantExpr: 1
+------------------ConstantExpr: 2
+------------------ConstantExpr: 3
+---------------ArrayInitExpr:
+------------------ConstantExpr: 4
+------------------ConstantExpr: 5
+------------------ConstantExpr: 6
+---------ReturnStmt:
+------------ConstantExpr: 0

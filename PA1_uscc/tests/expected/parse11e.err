@@ -1,0 +1,10 @@
+parse11e.usc:7:1: error: Expected: ; but saw: EOF
+
+^
+parse11e.usc:7:1: error: Unexpected end of file
+
+^
+parse11e.usc:7:1: error: Unexpected end of file
+
+^
+3 Error(s)

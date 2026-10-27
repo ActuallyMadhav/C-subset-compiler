@@ -1,0 +1,37 @@
+test011.usc:28:2: error: Use of undeclared identifier 'a'
+	a;
+	^
+test011.usc:29:2: error: Use of undeclared identifier 'array'
+	array[5];
+	^
+test011.usc:30:2: error: Use of undeclared identifier 'x'
+	x = 5;
+	^
+test011.usc:31:2: error: Use of undeclared identifier 'y'
+	y = 10;
+	^
+test011.usc:32:2: error: Use of undeclared identifier 'array'
+	array[5] = 10;
+	^
+test011.usc:34:9: error: Use of undeclared identifier 'x'
+	while (x > 0)
+	       ^
+test011.usc:36:5: error: Use of undeclared identifier 'x'
+		--x;
+		  ^
+test011.usc:37:3: error: Use of undeclared identifier 'y'
+		y = y + x * 2;
+		^
+test011.usc:37:7: error: Use of undeclared identifier 'y'
+		y = y + x * 2;
+		    ^
+test011.usc:37:11: error: Use of undeclared identifier 'x'
+		y = y + x * 2;
+		        ^
+test011.usc:38:13: error: Use of undeclared identifier 'x'
+        if (x < 5) {
+            ^
+test011.usc:44:1: error: USC requires non-void functions to end with a return
+}
+^
+12 Error(s)

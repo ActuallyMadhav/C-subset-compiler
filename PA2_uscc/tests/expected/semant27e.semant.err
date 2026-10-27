@@ -1,0 +1,4 @@
+semant27e.usc:13:3: error: c is not an array
+	c[1] = 'a';
+	 ^
+1 Error(s)

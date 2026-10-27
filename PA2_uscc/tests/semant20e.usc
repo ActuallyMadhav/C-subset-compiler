@@ -1,0 +1,17 @@
+// semant20e.usc
+// Tests array subscript bounds
+// in a multi-dimensional array.
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int main() {
+	int a[3][4];
+	a[0][7] = 1;
+	a[10][0] = 1;
+	return 0;
+}

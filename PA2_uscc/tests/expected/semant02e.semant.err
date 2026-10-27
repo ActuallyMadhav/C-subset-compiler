@@ -1,0 +1,10 @@
+semant02e.usc:15:6: error: Invalid redeclaration of identifier 'x'
+	int x;
+	    ^
+semant02e.usc:16:2: error: Use of undeclared identifier 'y'
+	y = 1;
+	^
+semant02e.usc:17:6: error: Use of undeclared identifier 'z'
+	x = z;
+	    ^
+3 Error(s)

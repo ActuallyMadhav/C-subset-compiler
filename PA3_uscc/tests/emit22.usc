@@ -1,0 +1,41 @@
+// emit22.usc
+// Tests taking the address of an element of a 2D array and
+// passing it to a function
+// Expected output:
+// 33
+// 66
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int sum3(int x[])
+{
+	return x[0] + x[1] + x[2];
+}
+
+int main()
+{
+	int a[3][4];
+	int i = 0;
+	int j;
+	
+	while (i < 3)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			a[i][j] = i * 10 + j;
+			j = j + 1;
+		}
+		i = i + 1;
+	}
+	
+	printf("%d\n", sum3(&a[1][0]));
+	printf("%d\n", sum3(&a[2][1]));
+	
+	return 0;
+}

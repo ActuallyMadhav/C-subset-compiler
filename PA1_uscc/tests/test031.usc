@@ -1,0 +1,18 @@
+// test031.usc
+// Array initializer lists (declared and inferred size)
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int main()
+{
+	int a[3] = {1, 2, 3};
+	int b[] = {4, 5, 6, 7};
+	char c[4] = {97, 98, 99};
+	char d[] = {65, 66};
+	return 0;
+}

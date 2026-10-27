@@ -1,0 +1,26 @@
+// cse18.usc
+// The repeated difference must be merged. Subtraction and division give
+// different answers when their operands are exchanged, so the reversed forms
+// must all survive.
+
+int main() {
+    int a;
+    int b;
+    int v;
+    int w;
+    int x;
+    int y;
+    int z;
+
+    a = 8;
+    b = 2;
+
+    w = a - b;
+    v = a - b;
+    x = b - a;
+    y = a / b;
+    z = b / a;
+
+    printf("%d %d %d %d %d\n", w, v, x, y, z);
+    return 0;
+}

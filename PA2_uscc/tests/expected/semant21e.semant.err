@@ -1,0 +1,19 @@
+Program:
+---Function: int main
+------CompoundStmt:
+---------Decl: int[3] a
+---------AssignArrayStmt:
+------------ArraySub: a
+---------------BinaryMath +:
+------------------ConstantExpr: 1
+------------------ConstantExpr: 5
+------------ConstantExpr: 1
+---------ReturnStmt:
+------------ConstantExpr: 0
+Symbols:
+function main
+function printf
+---int[] a
+semant21e.usc:14:9: warning: index 6 is outside bounds of array 'a' of size 3
+	a[1 + 5] = 1;
+	       ^

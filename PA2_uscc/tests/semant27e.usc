@@ -1,0 +1,15 @@
+// semant27e.usc
+// Tests array access on a char.
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int main() {
+	char c;
+	c[1] = 'a';
+	return 0;
+}

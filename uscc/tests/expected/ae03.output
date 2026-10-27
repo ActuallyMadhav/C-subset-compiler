@@ -1,0 +1,8 @@
+********** Available Expressions Information **********
+********** Function: main, analysis iterates 1 times
+entry:
+  GEN: [1:   %mul1 = mul i32 %7, %6]
+  KILL: [0:   %mul = mul i32 %5, %4]
+  IN:
+  OUT: [1:   %mul1 = mul i32 %7, %6]
+

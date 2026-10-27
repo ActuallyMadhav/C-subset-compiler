@@ -1,0 +1,25 @@
+// cse05.usc
+// Several independent redundancies in one block. Each removal also strands the
+// loads that fed the removed expression, so the sweep has to clean up both.
+
+int main() {
+    int a;
+    int b;
+    int c;
+    int w;
+    int x;
+    int y;
+    int z;
+
+    a = 9;
+    b = 4;
+    c = 3;
+
+    w = a - b;
+    x = a * c;
+    y = a - b;
+    z = a * c;
+
+    printf("%d %d %d %d\n", w, x, y, z);
+    return 0;
+}

@@ -1,0 +1,20 @@
+// cse06.usc
+// A subexpression that is redundant with a whole expression computed earlier.
+
+int main() {
+    int a;
+    int b;
+    int c;
+    int x;
+    int y;
+
+    a = 6;
+    b = 2;
+    c = 3;
+
+    x = a + b;
+    y = (a + b) * c;
+
+    printf("%d %d\n", x, y);
+    return 0;
+}

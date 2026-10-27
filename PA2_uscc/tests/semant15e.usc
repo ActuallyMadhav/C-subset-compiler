@@ -1,0 +1,15 @@
+// semant15e.usc
+// Tests the element types
+// of an initializer list.
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int main() {
+	int a[2] = {"str"};
+	return 0;
+}

@@ -1,0 +1,20 @@
+// cse22.usc
+// The write between the two reads is to a scalar, which no subscript can name,
+// so the array expression survives it and the second read is still redundant.
+// This is the precision the array rule must not give away.
+
+int main() {
+    int arr[4];
+    int b;
+    int x;
+    int y;
+
+    arr[1] = 7;
+
+    x = arr[1] + 2;
+    b = 5;
+    y = arr[1] + 2;
+
+    printf("%d %d %d\n", x, y, b);
+    return 0;
+}

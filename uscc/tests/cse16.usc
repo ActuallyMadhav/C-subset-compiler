@@ -1,0 +1,28 @@
+// cse16.usc
+// The write between the first two comparisons kills the first, so the second
+// must be made again. Nothing writes either operand after that, so the third is
+// redundant with the second and must be merged into it.
+
+int main() {
+    int a;
+    int b;
+
+    a = 1;
+    b = 5;
+
+    if (a < b) {
+        printf("before\n");
+    }
+
+    a = 2;
+
+    if (a < b) {
+        printf("after\n");
+    }
+
+    if (a < b) {
+        printf("still after\n");
+    }
+
+    return 0;
+}

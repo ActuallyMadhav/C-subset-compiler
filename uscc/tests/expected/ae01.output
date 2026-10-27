@@ -1,0 +1,8 @@
+********** Available Expressions Information **********
+********** Function: main, analysis iterates 1 times
+entry:
+  GEN: [0:   %add = add i32 %7, %6] [1:   %mul = mul i32 %9, %8] [2:   %sub = sub i32 %11, %10]
+  KILL:
+  IN:
+  OUT: [0:   %add = add i32 %7, %6] [1:   %mul = mul i32 %9, %8] [2:   %sub = sub i32 %11, %10]
+

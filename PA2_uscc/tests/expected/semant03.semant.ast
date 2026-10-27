@@ -1,0 +1,44 @@
+Program:
+---Function: int main
+------CompoundStmt:
+---------Decl: int[3] a
+------------ArrayInitExpr:
+---------------ConstantExpr: 1
+---------------ConstantExpr: 2
+---------------ConstantExpr: 3
+---------Decl: int[3] b
+------------ArrayInitExpr:
+---------------ConstantExpr: 1
+---------------ConstantExpr: 2
+---------Decl: int[2][2] m
+------------ArrayInitExpr:
+---------------ArrayInitExpr:
+------------------ConstantExpr: 1
+------------------ConstantExpr: 2
+---------------ArrayInitExpr:
+------------------ConstantExpr: 3
+------------------ConstantExpr: 4
+---------Decl: int[2][2] e
+------------ArrayInitExpr:
+---------------ConstantExpr: 1
+---------------ConstantExpr: 2
+---------------ConstantExpr: 3
+---------------ConstantExpr: 4
+---------Decl: int[3] u
+------------ArrayInitExpr:
+---------------ConstantExpr: 1
+---------------ConstantExpr: 2
+---------------ConstantExpr: 3
+---------Decl: char[4] s
+------------StringExpr: abc
+---------ReturnStmt:
+------------ConstantExpr: 0
+Symbols:
+function main
+function printf
+---int[] a
+---int[] b
+---int[] e
+---int[] m
+---char[] s
+---int[] u

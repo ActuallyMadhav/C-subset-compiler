@@ -1,0 +1,4 @@
+semant19e.usc:13:30: error: Cannot mix braced and unbraced initializers for array 'e'
+	int e[2][2] = {{1, 2}, 3, 4};
+	                            ^
+1 Error(s)

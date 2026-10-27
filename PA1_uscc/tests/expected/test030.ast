@@ -1,0 +1,9 @@
+Program:
+---Function: int main
+------CompoundStmt:
+---------Decl: int[5] a
+---------Decl: int[20] b
+---------Decl: int[4] c
+---------Decl: char[4] d
+---------ReturnStmt:
+------------ConstantExpr: 0

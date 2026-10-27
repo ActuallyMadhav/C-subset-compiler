@@ -1,0 +1,27 @@
+// ae04.usc
+// Diamond CFG, no kill on either arm: the expression computed before the
+// branch survives the meet and is available at the merge point.
+
+int main() {
+    int a;
+    int b;
+    int c;
+    int x;
+
+    a = 7;
+    b = 4;
+    c = 0;
+
+    x = a - b;
+
+    if (x > 0) {
+        c = 1;
+    } else {
+        c = 2;
+    }
+
+    x = (a - b) + c;
+
+    printf("%d\n", x);
+    return 0;
+}

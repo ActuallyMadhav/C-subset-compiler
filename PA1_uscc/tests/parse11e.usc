@@ -1,0 +1,6 @@
+// parse11e.usc
+// Error recovery: an unterminated statement at end of file stops cleanly
+
+int main()
+{
+	return 0

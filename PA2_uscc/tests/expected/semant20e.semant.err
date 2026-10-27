@@ -1,0 +1,26 @@
+Program:
+---Function: int main
+------CompoundStmt:
+---------Decl: int[3][4] a
+---------AssignArrayStmt:
+------------ArraySub: a
+---------------ConstantExpr: 0
+---------------ConstantExpr: 7
+------------ConstantExpr: 1
+---------AssignArrayStmt:
+------------ArraySub: a
+---------------ConstantExpr: 10
+---------------ConstantExpr: 0
+------------ConstantExpr: 1
+---------ReturnStmt:
+------------ConstantExpr: 0
+Symbols:
+function main
+function printf
+---int[] a
+semant20e.usc:14:8: warning: index 7 is outside bounds of array 'a' of size 4
+	a[0][7] = 1;
+	      ^
+semant20e.usc:15:6: warning: index 10 is outside bounds of array 'a' of size 3
+	a[10][0] = 1;
+	    ^

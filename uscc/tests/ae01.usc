@@ -1,0 +1,23 @@
+// ae01.usc
+// Straight-line code in one basic block: GEN accumulates, nothing is killed
+// after the expressions are computed.
+
+int main() {
+    int a;
+    int b;
+    int c;
+    int x;
+    int y;
+    int z;
+
+    a = 2;
+    b = 3;
+    c = 4;
+
+    x = a + b;
+    y = b * c;
+    z = c - a;
+
+    printf("%d %d %d\n", x, y, z);
+    return 0;
+}

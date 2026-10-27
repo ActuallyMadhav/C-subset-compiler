@@ -1,0 +1,23 @@
+// cse04.usc
+// Cascading redundancy. The outer products cannot be matched on the first
+// pass, because their operands are two different add instructions. Only after
+// the inner adds are merged do the outer products become identical, so this
+// needs the mark-sweep loop to run to a fixed point.
+
+int main() {
+    int a;
+    int b;
+    int c;
+    int p;
+    int q;
+
+    a = 2;
+    b = 3;
+    c = 5;
+
+    p = (a + b) * c;
+    q = (a + b) * c;
+
+    printf("%d %d\n", p, q);
+    return 0;
+}

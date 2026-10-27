@@ -1,0 +1,4 @@
+semant13e.usc:13:28: error: Too many initializers for array 'a' of size 3
+	int a[3] = {1, 2, 3, 4, 5};
+	                          ^
+1 Error(s)

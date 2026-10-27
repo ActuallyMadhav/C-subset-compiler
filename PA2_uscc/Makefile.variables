@@ -1,0 +1,43 @@
+ifeq ($(OS),Windows_NT)
+EXEC = uscc.exe
+else
+EXEC = uscc
+endif
+
+ifeq ($(OS),Windows_NT)
+CXX = g++
+else
+CXX = g++
+endif
+
+# Path to llvm-config. The parent of this uscc/ dir has an `llvm` symlink
+# pointing at the LLVM install; ../llvm/bin/llvm-config is resolved from
+# this Makefile.variables directory so all sub-Makefiles agree.
+# Override at make time with LLVM_CONFIG=/path/to/llvm-config if needed.
+USCC_DIR     := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+LLVM_CONFIG  ?= $(USCC_DIR)/../llvm/bin/llvm-config
+
+LLVM_CXXFLAGS := $(shell $(LLVM_CONFIG) --cxxflags)
+LLVM_LDFLAGS  := $(shell $(LLVM_CONFIG) --ldflags)
+LLVM_SYSLIBS  := $(shell $(LLVM_CONFIG) --system-libs)
+LLVM_LIBS     := $(shell $(LLVM_CONFIG) --libs core support irreader bitwriter analysis transformutils scalaropts instcombine asmprinter mc mcparser codegen selectiondag x86 x86codegen x86asmparser x86desc x86info)
+
+# llvm-config gives us -std=c++17, -fno-exceptions, -fno-rtti by default.
+# USCC needs RTTI on (Pass subclasses) and exceptions on (ParseExcept), so
+# strip those out and re-enable.
+CXXFLAGS = -std=c++17 -fexceptions -frtti
+
+DBGFLAGS =  -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS
+
+# Pull in LLVM's defines/include flags but drop its -fno-rtti / -fno-exceptions
+# / -std=c++NN since we set those above.
+LLVM_CXXFLAGS_FILTERED := $(filter-out -std=% -fno-rtti -fno-exceptions -O3 -O2 -O1 -O0,$(LLVM_CXXFLAGS))
+CXXFLAGS += $(LLVM_CXXFLAGS_FILTERED)
+
+LDFLAGS = -lcurses -ldl -lpthread $(LLVM_LDFLAGS) $(LLVM_LIBS) $(LLVM_SYSLIBS)
+
+WFLAGS = -Woverloaded-virtual -Wcast-qual
+
+CXXFLAGS += $(WFLAGS) $(DBGFLAGS)
+
+DEBUG = 1

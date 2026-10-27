@@ -1,0 +1,16 @@
+semant28e.usc:15:8: error: Cannot perform op between type int[] and int
+	x = a || 1;
+	      ^
+semant28e.usc:16:8: error: Cannot perform op between type int[] and int
+	x = a && 1;
+	      ^
+semant28e.usc:17:8: error: Cannot perform op between type int[] and int
+	x = a < 1;
+	      ^
+semant28e.usc:18:8: error: Cannot perform op between type int[] and int
+	x = a + 1;
+	      ^
+semant28e.usc:19:8: error: Cannot perform op between type int[] and int
+	x = a * 1;
+	      ^
+5 Error(s)

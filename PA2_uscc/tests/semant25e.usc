@@ -1,0 +1,16 @@
+// semant25e.usc
+// Tests assignment to a char array.
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int main() {
+	char s[8];
+	char t[8];
+	s = t;
+	return 0;
+}

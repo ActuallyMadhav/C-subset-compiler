@@ -1,0 +1,15 @@
+// semant13e.usc
+// Tests array initializer lists
+// in a 1-D declaration.
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int main() {
+	int a[3] = {1, 2, 3, 4, 5};
+	return 0;
+}

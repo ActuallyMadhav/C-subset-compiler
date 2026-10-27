@@ -1,0 +1,15 @@
+// test034.usc
+// Nested initializer list for a 2-D array
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int main()
+{
+	int m[2][3] = {{1, 2, 3}, {4, 5, 6}};
+	return 0;
+}

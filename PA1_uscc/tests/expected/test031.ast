@@ -1,0 +1,25 @@
+Program:
+---Function: int main
+------CompoundStmt:
+---------Decl: int[3] a
+------------ArrayInitExpr:
+---------------ConstantExpr: 1
+---------------ConstantExpr: 2
+---------------ConstantExpr: 3
+---------Decl: int[4] b
+------------ArrayInitExpr:
+---------------ConstantExpr: 4
+---------------ConstantExpr: 5
+---------------ConstantExpr: 6
+---------------ConstantExpr: 7
+---------Decl: char[4] c
+------------ArrayInitExpr:
+---------------ConstantExpr: 97
+---------------ConstantExpr: 98
+---------------ConstantExpr: 99
+---------Decl: char[2] d
+------------ArrayInitExpr:
+---------------ConstantExpr: 65
+---------------ConstantExpr: 66
+---------ReturnStmt:
+------------ConstantExpr: 0

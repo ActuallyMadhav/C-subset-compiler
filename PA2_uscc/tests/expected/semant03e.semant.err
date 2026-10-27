@@ -1,0 +1,7 @@
+semant03e.usc:30:13: error: Use of undeclared identifier 'y'
+	return x + y;
+	           ^
+semant03e.usc:28:12: warning: index 4 is outside bounds of array 'a' of size 3
+        a[4] = 33;
+           ^
+1 Error(s)

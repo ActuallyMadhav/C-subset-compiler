@@ -1,0 +1,4 @@
+semant22e.usc:13:9: error: Expected type int in return statement
+	return c;
+	       ^
+1 Error(s)

@@ -1,0 +1,24 @@
+// cse23.usc
+// NEGATIVE TEST. Arrays are passed by address, so the called function may write
+// to any element it was given and the expression must be computed again after
+// the call returns.
+
+void bump(int a[]) {
+    a[1] = 100;
+    return;
+}
+
+int main() {
+    int arr[4];
+    int x;
+    int y;
+
+    arr[1] = 7;
+
+    x = arr[1] + 2;
+    bump(arr);
+    y = arr[1] + 2;
+
+    printf("%d %d\n", x, y);
+    return 0;
+}

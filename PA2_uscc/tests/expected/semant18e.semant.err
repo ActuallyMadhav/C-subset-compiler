@@ -1,0 +1,4 @@
+semant18e.usc:13:31: error: Too many initializers for array 'e' of size 4
+	int e[2][2] = {1, 2, 3, 4, 5};
+	                             ^
+1 Error(s)

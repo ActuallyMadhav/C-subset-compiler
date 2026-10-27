@@ -1,0 +1,25 @@
+// cse03.usc
+// Loop-invariant redundancy: a * b is computed before the loop and again in
+// the body, and nothing in the loop writes a or b.
+
+int main() {
+    int a;
+    int b;
+    int i;
+    int sum;
+
+    a = 3;
+    b = 7;
+    sum = 0;
+    i = 0;
+
+    sum = a * b;
+
+    while (i < 4) {
+        sum = sum + (a * b);
+        i = i + 1;
+    }
+
+    printf("%d\n", sum);
+    return 0;
+}

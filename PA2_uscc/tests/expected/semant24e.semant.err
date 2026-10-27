@@ -1,0 +1,4 @@
+semant24e.usc:14:4: error: Reassignment of arrays is not allowed
+	a = b;
+	  ^
+1 Error(s)

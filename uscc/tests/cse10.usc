@@ -1,0 +1,37 @@
+// cse10.usc
+// Switch nested inside a loop. The expression is computed in the loop body
+// before the switch, so it reaches every case arm and the recomputation inside
+// an arm is redundant.
+
+int main() {
+    int a;
+    int b;
+    int i;
+    int t;
+    int sum;
+
+    a = 5;
+    b = 2;
+    sum = 0;
+    i = 0;
+    t = 0;
+
+    while (i < 4) {
+        t = a * b;
+        switch (i) {
+            case 0:
+                sum = sum + (a * b);
+                break;
+            case 1:
+                sum = sum + t;
+                break;
+            default:
+                sum = sum + 1;
+                break;
+        }
+        i = i + 1;
+    }
+
+    printf("%d\n", sum);
+    return 0;
+}

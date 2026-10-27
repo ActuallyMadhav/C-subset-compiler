@@ -1,0 +1,4 @@
+semant14e.usc:13:19: error: Initializer list is not allowed for non-array 'a'
+	int a = {1, 2, 3};
+	                 ^
+1 Error(s)

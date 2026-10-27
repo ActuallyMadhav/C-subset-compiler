@@ -1,0 +1,63 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [9 x i8] c"onemore\0A\00"
+@.str.1 = private unnamed_addr constant [7 x i8] c"break\0A\00"
+@.str.2 = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+@.str.3 = private unnamed_addr constant [10 x i8] c"continue\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @main() {
+entry:
+  %0 = alloca i32, align 4
+  %1 = alloca i32, align 4
+  store i32 0, ptr %0, align 4
+  store i32 0, ptr %1, align 4
+  br label %for.cond
+
+for.cond:                                         ; preds = %for.step, %entry
+  %2 = load i32, ptr %1, align 4
+  %lt = icmp slt i32 %2, 20
+  br i1 %lt, label %for.body, label %for.end
+
+for.body:                                         ; preds = %for.cond
+  %3 = load i32, ptr %1, align 4
+  %mod = srem i32 %3, 3
+  %eq = icmp eq i32 %mod, 0
+  br i1 %eq, label %if.then, label %if.end
+
+for.step:                                         ; preds = %if.end3, %if.else, %if.then
+  %4 = load i32, ptr %1, align 4
+  %add4 = add i32 %4, 1
+  store i32 %add4, ptr %1, align 4
+  br label %for.cond
+
+for.end:                                          ; preds = %if.then2, %for.cond
+  ret i32 0
+
+if.then:                                          ; preds = %for.body
+  %5 = call i32 (ptr, ...) @printf(ptr @.str.3)
+  br label %for.step
+
+if.end:                                           ; preds = %for.body
+  %6 = load i32, ptr %0, align 4
+  %add = add i32 100, %6
+  store i32 %add, ptr %0, align 4
+  %7 = load i32, ptr %0, align 4
+  %8 = call i32 (ptr, ...) @printf(ptr @.str.2, i32 %7)
+  %9 = load i32, ptr %1, align 4
+  %eq1 = icmp eq i32 %9, 10
+  br i1 %eq1, label %if.then2, label %if.else
+
+if.then2:                                         ; preds = %if.end
+  %10 = call i32 (ptr, ...) @printf(ptr @.str.1)
+  br label %for.end
+
+if.end3:                                          ; No predecessors!
+  %11 = call i32 (ptr, ...) @printf(ptr @.str)
+  br label %for.step
+
+if.else:                                          ; preds = %if.end
+  br label %for.step
+}

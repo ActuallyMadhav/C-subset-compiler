@@ -1,0 +1,26 @@
+// cse07.usc
+// A write to one of the operands between the two sums kills the expression, so
+// the second sum must be recomputed. The product that follows is untouched by
+// that write, so it is redundant and must be merged.
+
+int main() {
+    int a;
+    int b;
+    int x;
+    int y;
+    int p;
+    int q;
+
+    a = 5;
+    b = 3;
+
+    x = a + b;
+    a = 20;
+    y = a + b;
+
+    p = a * b;
+    q = a * b;
+
+    printf("%d %d %d %d\n", x, y, p, q);
+    return 0;
+}

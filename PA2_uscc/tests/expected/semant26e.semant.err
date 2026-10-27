@@ -1,0 +1,4 @@
+semant26e.usc:13:3: error: x is not an array
+	x[0] = 5;
+	 ^
+1 Error(s)

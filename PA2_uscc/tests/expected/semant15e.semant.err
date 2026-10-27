@@ -1,0 +1,4 @@
+semant15e.usc:13:20: error: Cannot assign an expression of type char[] to int
+	int a[2] = {"str"};
+	                  ^
+1 Error(s)

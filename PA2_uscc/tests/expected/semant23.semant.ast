@@ -1,0 +1,17 @@
+Program:
+---Function: int main
+------CompoundStmt:
+---------Decl: char c
+---------Decl: int i
+---------AssignStmt: c
+------------ConstantExpr: 65
+---------AssignStmt: i
+------------ToIntExpr: 
+---------------IdentExpr: c
+---------ReturnStmt:
+------------ConstantExpr: 0
+Symbols:
+function main
+function printf
+---char c
+---int i

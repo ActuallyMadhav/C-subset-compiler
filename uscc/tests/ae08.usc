@@ -1,0 +1,33 @@
+// ae08.usc
+// Switch: the merge at the end of the statement intersects the OUT sets of
+// every case arm, and one arm kills the expression.
+
+int main() {
+    int a;
+    int b;
+    int x;
+    int mode;
+
+    a = 8;
+    b = 3;
+    mode = 2;
+
+    x = a - b;
+
+    switch (mode) {
+        case 1:
+            b = 0;
+            break;
+        case 2:
+            x = x + 1;
+            break;
+        default:
+            x = 0;
+            break;
+    }
+
+    x = x + (a - b);
+
+    printf("%d\n", x);
+    return 0;
+}

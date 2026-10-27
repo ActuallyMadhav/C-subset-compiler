@@ -1,0 +1,16 @@
+// semant21e.usc
+// Tests array subscript bounds
+// with a folded constant index.
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int main() {
+	int a[3];
+	a[1 + 5] = 1;
+	return 0;
+}

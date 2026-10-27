@@ -1,0 +1,26 @@
+// cse13.usc
+// The repeated equality must be merged. Equality and inequality over the same
+// operands are opposites, so the third comparison must survive -- standing it
+// in for the first would invert the test.
+
+int main() {
+    int a;
+    int b;
+
+    a = 7;
+    b = 7;
+
+    if (a == b) {
+        printf("equal\n");
+    }
+
+    if (a == b) {
+        printf("still equal\n");
+    }
+
+    if (a != b) {
+        printf("not equal\n");
+    }
+
+    return 0;
+}

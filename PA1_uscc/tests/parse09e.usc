@@ -1,0 +1,12 @@
+// parse09e.usc
+// Error recovery: sync to a statement keyword restarts a clean statement
+
+int main()
+{
+	int x;
+	x =
+	while (x) {
+		x = x - 1;
+	}
+	return 0;
+}

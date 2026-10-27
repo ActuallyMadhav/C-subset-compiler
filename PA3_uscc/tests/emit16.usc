@@ -1,0 +1,26 @@
+// emit16.usc
+// Tests initializer list elements that aren't constants
+// Expected output:
+// 1 5 9 10
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int nine()
+{
+	return 9;
+}
+
+int main()
+{
+	int k = 5;
+	int a[4] = {1, k, nine(), k * 2};
+	
+	printf("%d %d %d %d\n", a[0], a[1], a[2], a[3]);
+	
+	return 0;
+}

@@ -1,0 +1,21 @@
+// ae02.usc
+// Kill by value definition: computing a subexpression defines a value that a
+// larger expression uses as an operand, so the larger one is killed by it.
+
+int main() {
+    int a;
+    int b;
+    int c;
+    int x;
+    int y;
+
+    a = 2;
+    b = 5;
+    c = 3;
+
+    x = (a + b) * c;
+    y = (a + b) - c;
+
+    printf("%d %d\n", x, y);
+    return 0;
+}

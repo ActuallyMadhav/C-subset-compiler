@@ -1,0 +1,17 @@
+// cse20.usc
+// The same array element is read twice with nothing in between to change it.
+// Both the address computation and the arithmetic above it are redundant.
+
+int main() {
+    int arr[4];
+    int x;
+    int y;
+
+    arr[1] = 7;
+
+    x = arr[1] + 2;
+    y = arr[1] + 2;
+
+    printf("%d %d\n", x, y);
+    return 0;
+}

@@ -1,0 +1,21 @@
+// cse21.usc
+// NEGATIVE TEST. The subscript written between the two reads is not a constant,
+// so it may name the element being read. A write to any element is taken to
+// reach the whole array and the expression must be computed again.
+
+int main() {
+    int arr[4];
+    int i;
+    int x;
+    int y;
+
+    i = 1;
+    arr[1] = 7;
+
+    x = arr[1] + 2;
+    arr[i] = 30;
+    y = arr[1] + 2;
+
+    printf("%d %d\n", x, y);
+    return 0;
+}
