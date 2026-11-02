@@ -103,6 +103,56 @@ bool CommonSubexpressionElimination::runOnFunction(llvm::Function &F) {
     AvailableExpressions &ae = getAnalysis<AvailableExpressions>();
     bool globalChanged = false;
     // PA4: Implement
+    bool changed = true;
+    while(changed){
+        changed = false;
+        std::set<Instruction*> toBeDeleted = {};
+        std::set<LoadInst*> loaded = {};
+
+        for(BasicBlock& BB : F){
+            auto replacements = ae.getInSet(&BB);
+
+            for(Instruction& inst : BB){
+                if(!isa<BinaryOperator>(&inst) && !isa<CmpInst>(&inst) && !isa<GetElementPtrInst>(&inst)){
+                    continue;
+                }
+                Instruction* point = inst.getPrevNode();
+                if(point == nullptr){
+                    point = &inst;
+                }
+
+                for(Instruction* prevInst : replacements){
+                    if(prevInst == &inst || toBeDeleted.count(prevInst) || !Search(&inst, prevInst) || !ae.isAvailableAfter(*prevInst, *point)){
+                        continue;
+                    }
+                    for(auto& op : inst.operands()){
+                        if(dyn_cast<LoadInst>(op.get())){
+                            loaded.insert(dyn_cast<LoadInst>(op.get()));
+                        }
+                    }
+                    inst.replaceAllUsesWith(prevInst);
+                    toBeDeleted.insert(&inst);
+                    break;
+                }
+            }
+        }
+
+        for(Instruction* inst : toBeDeleted){
+            inst->eraseFromParent();
+        }
+
+        for(LoadInst* loadInst : loaded){
+            if(loadInst->use_empty()){
+                loadInst->eraseFromParent();
+            }
+        }
+
+        if(!toBeDeleted.empty()){
+            changed = true;
+            globalChanged = true;
+            ae.runOnFunction(F);
+        }
+    }
 
     return globalChanged;
 }
