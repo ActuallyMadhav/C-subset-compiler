@@ -292,25 +292,25 @@ bool AvailableExpressions::runOnFunction(Function &F) {
         worklist.pop_back();
         iterationCount++;
 
-        std::set<uint32_t> in = {};
+        std::set<uint32_t> newIn = {};
         bool firstIteration = true;
         if(BB != entry){
             for(BasicBlock* predecessor : predecessors(BB)){
                 if(firstIteration){
-                    in = bb2Out[predecessor];
+                    newIn = bb2Out[predecessor];
                     firstIteration = false;
                 }
                 else{
-                    in = intersect(in, bb2Out[predecessor]);
+                    newIn = intersect(newIn, bb2Out[predecessor]);
                 }
             }
-            bb2In[BB] = in;
+            bb2In[BB] = newIn;
         }
 
-        std::set<uint32_t> out = set_union(bb2Gen[BB], set_difference(in, bb2Kill[BB]));
+        std::set<uint32_t> newOut = set_union(bb2Gen[BB], set_difference(newIn, bb2Kill[BB]));
 
-        if(!areSetsEqual(out, bb2Out[BB])){
-            bb2Out[BB] = out;
+        if(!areSetsEqual(newOut, bb2Out[BB])){
+            bb2Out[BB] = newOut;
             for(BasicBlock* successor : successors(BB)){
                 worklist.push_front(successor);
             }
