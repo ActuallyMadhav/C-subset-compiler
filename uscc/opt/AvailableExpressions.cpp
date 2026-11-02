@@ -8,6 +8,9 @@
 #include "Passes.h"
 #include "AvailableExpressions.h"
 #include "llvm/IR/CFG.h"
+#include <algorithm>
+#include <cstdint>
+#include <sys/types.h>
 
 using namespace std;
 using namespace llvm;
@@ -182,6 +185,44 @@ void AvailableExpressions::dumpAvailableExpressions(Function &F, unsigned iterat
     llvm::outs() << "\n";
 }
 
+//calc gen and kill set helper func
+std::set<uint32_t> AvailableExpressions::calcKillSet(Instruction* inst){
+    std::set<uint32_t> kill = {};
+
+    StoreInst* stored = dyn_cast<StoreInst>(inst);  //null if not store inst
+    CallInst* called = dyn_cast<CallInst>(inst);    //null if not call inst
+
+    for(uint32_t i = 0; i < id2Expr.size(); i++){
+        Instruction* expr = id2Expr[i];
+        for(const auto& op : expr->operands()){
+            if(!inst->getType()->isVoidTy() && !isa<AllocaInst>(inst) && op.get() == inst){
+                kill.insert(i);
+                break;
+            }
+
+            LoadInst* loaded = dyn_cast<LoadInst>(op.get());    // null if op is not load
+            if(loaded && stored && mayOverlap(stored->getPointerOperand(), loaded->getPointerOperand())){
+                kill.insert(i);
+                break;
+            }
+
+            if(loaded && called && escapesToCallee(loaded->getPointerOperand())){
+                kill.insert(i);
+                break;
+            }
+        }
+    }
+    return kill;
+}
+
+std::set<uint32_t> AvailableExpressions::calcGenSet(Instruction* inst){
+    std::set<uint32_t> gen = {};
+    auto it = expr2Id.find(inst);
+    if(it != expr2Id.end()){
+        gen.insert(it->second);
+    }
+    return gen;
+}
 
 bool AvailableExpressions::runOnFunction(Function &F) {
     if (F.empty())
@@ -189,16 +230,92 @@ bool AvailableExpressions::runOnFunction(Function &F) {
 
     // Step 1: Identify all expressions and create mappings
     // PA4: Implement
+    
+    //release mem
+    releaseMemory();
+    universalSet.clear();
+    bb2Gen.clear();
+    bb2Kill.clear();
+    
+    uint32_t nextIdent = 0;
+    for(BasicBlock& BB : F){
+        for(Instruction& inst : BB){
+            if(isa<BinaryOperator>(&inst) || isa<CmpInst>(&inst) || isa<GetElementPtrInst>(&inst)){
+                expr2Id[&inst] = nextIdent;
+                id2Expr.push_back(&inst);
+                universalSet.insert(nextIdent);
+                nextIdent++;
+            }
+        }
+    }
 
     // Step 2: Calculate GEN and KILL sets
     // PA4: Implement
+    for(BasicBlock& BB : F){
+        std::set<uint32_t>& gen = bb2Gen[&BB];
+        std::set<uint32_t>& kill = bb2Kill[&BB];
+
+        for(Instruction& inst : BB){
+            auto k = calcKillSet(&inst);
+            auto g = calcGenSet(&inst);
+
+            gen  = set_union(g, set_difference(gen, k));
+            kill = set_union(k, set_difference(kill, g));
+        }
+    }
+
 
     // Step 3: Initialize IN and OUT sets
     // PA4: Implement
+    BasicBlock* entry = &F.getEntryBlock();
+    for(BasicBlock& BB : F){
+        bb2In[&BB] = {};
+        
+        if(&BB == entry){
+            bb2Out[&BB] = {};
+        }
+        else{
+            bb2Out[&BB] = universalSet;
+        }
+    }
 
     // Step 4: Worklist algorithm
     unsigned iterationCount = 0;
     // PA4: Implement
+    std::set<BasicBlock*> visited = {};
+    std::deque<BasicBlock*> worklist;
+
+    computePostOrder(&F.front(), visited, worklist); // populate worklist
+
+    while(!worklist.empty()){
+        BasicBlock* BB = worklist.back();
+        worklist.pop_back();
+        iterationCount++;
+
+        std::set<uint32_t> in = {};
+        bool firstIteration = true;
+        if(BB != entry){
+            for(BasicBlock* predecessor : predecessors(BB)){
+                if(firstIteration){
+                    in = bb2Out[predecessor];
+                    firstIteration = false;
+                }
+                else{
+                    in = intersect(in, bb2Out[predecessor]);
+                }
+            }
+            bb2In[BB] = in;
+        }
+
+        std::set<uint32_t> out = set_union(bb2Gen[BB], set_difference(in, bb2Kill[BB]));
+
+        if(!areSetsEqual(out, bb2Out[BB])){
+            bb2Out[BB] = out;
+            for(BasicBlock* successor : successors(BB)){
+                worklist.push_front(successor);
+            }
+        }
+    }
 
     if (enableAE) {
         dumpAvailableExpressions(F, iterationCount);
@@ -218,5 +335,17 @@ bool AvailableExpressions::isAvailableAfter(Instruction &expr, Instruction &poin
     }
 
     // PA4: Implement
-    return false;
+
+    uint32_t id = expr2Id[&expr];
+    std::set<uint32_t> current = bb2In[bb];
+
+    for(Instruction& inst : *bb){
+        std::set<uint32_t> gen = calcGenSet(&inst);
+        std::set<uint32_t> kill = calcKillSet(&inst);
+        current = set_union(gen, set_difference(current, kill));
+
+        if(&inst == &point) break;
+    }
+
+    return current.count(id);
 }

@@ -11,6 +11,7 @@
 #include "Passes.h"
 #include "llvm/IR/Operator.h"
 #include "llvm/IR/Instructions.h"
+#include <cstdint>
 #include <set>
 #include <map>
 #include <vector>
@@ -34,6 +35,10 @@ private:
     // GEN and KILL sets (IDs) for each basic block.
     std::map<BasicBlock*, std::set<uint32_t>> bb2Gen;
     std::map<BasicBlock*, std::set<uint32_t>> bb2Kill;
+
+    //helper func to calculate gen and kill set
+    std::set<uint32_t> calcKillSet(Instruction* inst);
+    std::set<uint32_t> calcGenSet(Instruction* inst);
 public:
     static char ID;
     AvailableExpressions();
