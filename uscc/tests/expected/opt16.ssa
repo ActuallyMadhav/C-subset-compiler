@@ -1,0 +1,53 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [6 x i8] c"last\0A\00"
+@.str.1 = private unnamed_addr constant [11 x i8] c"continue2\0A\00"
+@.str.2 = private unnamed_addr constant [7 x i8] c"break\0A\00"
+@.str.3 = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+@.str.4 = private unnamed_addr constant [10 x i8] c"continue\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @main() {
+entry:
+  br label %dowhile.body
+
+dowhile.body:                                     ; preds = %dowhile.cond, %entry
+  %Phi = phi i32 [ %Phi5, %dowhile.cond ], [ 0, %entry ]
+  %Phi1 = phi i32 [ %Phi7, %dowhile.cond ], [ 0, %entry ]
+  %inc = add i32 %Phi, 1
+  %eq = icmp eq i32 %inc, 5
+  br i1 %eq, label %if.then, label %if.end
+
+dowhile.cond:                                     ; preds = %if.end4, %if.else, %if.then
+  %Phi5 = phi i32 [ undef, %if.end4 ], [ %inc, %if.else ], [ %inc, %if.then ]
+  %Phi7 = phi i32 [ undef, %if.end4 ], [ %add, %if.else ], [ %Phi1, %if.then ]
+  %lt = icmp slt i32 %Phi5, 25
+  br i1 %lt, label %dowhile.body, label %dowhile.end
+
+dowhile.end:                                      ; preds = %dowhile.cond, %if.then3
+  ret i32 0
+
+if.then:                                          ; preds = %dowhile.body
+  %0 = call i32 (ptr, ...) @printf(ptr @.str.4)
+  br label %dowhile.cond
+
+if.end:                                           ; preds = %dowhile.body
+  %add = add i32 100, %Phi1
+  %1 = call i32 (ptr, ...) @printf(ptr @.str.3, i32 %add)
+  %eq2 = icmp eq i32 %inc, 15
+  br i1 %eq2, label %if.then3, label %if.else
+
+if.then3:                                         ; preds = %if.end
+  %2 = call i32 (ptr, ...) @printf(ptr @.str.2)
+  br label %dowhile.end
+
+if.end4:                                          ; No predecessors!
+  %3 = call i32 (ptr, ...) @printf(ptr @.str)
+  br label %dowhile.cond
+
+if.else:                                          ; preds = %if.end
+  %4 = call i32 (ptr, ...) @printf(ptr @.str.1)
+  br label %dowhile.cond
+}

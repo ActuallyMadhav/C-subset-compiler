@@ -1,0 +1,55 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [9 x i8] c"onemore\0A\00"
+@.str.1 = private unnamed_addr constant [7 x i8] c"break\0A\00"
+@.str.2 = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+@.str.3 = private unnamed_addr constant [10 x i8] c"continue\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @main() {
+entry:
+  br label %for.cond
+
+for.cond:                                         ; preds = %for.step, %entry
+  %Phi = phi i32 [ %add7, %for.step ], [ 0, %entry ]
+  %Phi1 = phi i32 [ %Phi8, %for.step ], [ 0, %entry ]
+  %lt = icmp slt i32 %Phi, 20
+  br i1 %lt, label %for.body, label %for.end
+
+for.body:                                         ; preds = %for.cond
+  %mod = srem i32 %Phi, 3
+  %eq = icmp eq i32 %mod, 0
+  br i1 %eq, label %if.then, label %if.end
+
+for.step:                                         ; preds = %if.end4, %if.else, %if.then
+  %Phi5 = phi i32 [ undef, %if.end4 ], [ %Phi, %if.else ], [ %Phi, %if.then ]
+  %Phi8 = phi i32 [ undef, %if.end4 ], [ %add, %if.else ], [ %Phi1, %if.then ]
+  %add7 = add i32 %Phi5, 1
+  br label %for.cond
+
+for.end:                                          ; preds = %if.then3, %for.cond
+  ret i32 0
+
+if.then:                                          ; preds = %for.body
+  %0 = call i32 (ptr, ...) @printf(ptr @.str.3)
+  br label %for.step
+
+if.end:                                           ; preds = %for.body
+  %add = add i32 100, %Phi1
+  %1 = call i32 (ptr, ...) @printf(ptr @.str.2, i32 %add)
+  %eq2 = icmp eq i32 %Phi, 10
+  br i1 %eq2, label %if.then3, label %if.else
+
+if.then3:                                         ; preds = %if.end
+  %2 = call i32 (ptr, ...) @printf(ptr @.str.1)
+  br label %for.end
+
+if.end4:                                          ; No predecessors!
+  %3 = call i32 (ptr, ...) @printf(ptr @.str)
+  br label %for.step
+
+if.else:                                          ; preds = %if.end
+  br label %for.step
+}

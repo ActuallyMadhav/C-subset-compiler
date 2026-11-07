@@ -1,0 +1,32 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [11 x i8] c"Wednesday\0A\00"
+@.str.1 = private unnamed_addr constant [9 x i8] c"Tuesday\0A\00"
+@.str.2 = private unnamed_addr constant [8 x i8] c"Monday\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @main() {
+entry:
+  switch i32 3, label %switch.end [
+    i32 1, label %switch.case
+    i32 2, label %switch.case1
+    i32 3, label %switch.case2
+  ]
+
+switch.end:                                       ; preds = %switch.case2, %switch.case1, %switch.case, %entry
+  ret i32 0
+
+switch.case:                                      ; preds = %entry
+  %0 = call i32 (ptr, ...) @printf(ptr @.str.2)
+  br label %switch.end
+
+switch.case1:                                     ; preds = %entry
+  %1 = call i32 (ptr, ...) @printf(ptr @.str.1)
+  br label %switch.end
+
+switch.case2:                                     ; preds = %entry
+  %2 = call i32 (ptr, ...) @printf(ptr @.str)
+  br label %switch.end
+}
