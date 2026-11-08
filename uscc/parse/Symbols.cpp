@@ -106,34 +106,13 @@ llvm::Type* Identifier::llvmElementType(llvm::LLVMContext& context) noexcept
 llvm::Value* Identifier::readFrom(CodeContext& ctx) noexcept
 {
 	// PA5: Rewrite this entire function
-	llvm::Value* retVal = nullptr;
-	// Special case for arrays local to this function
-	if (isArray() && getArrayCount() != -1)
-	{
-		retVal = getAddress();
-	}
-	else
-	{
-        llvm::IRBuilder<> builder(ctx.mBlock);
-        retVal = builder.CreateLoad(llvmType(ctx.mGlobal), getAddress());
-	}
-	return retVal;
+	return ctx.mSSA.readVariable(this, ctx.mBlock);	
 }
 
 void Identifier::writeTo(CodeContext& ctx, llvm::Value* value) noexcept
 {
 	// PA5: Rewrite this entire function
-
-	// Special case for arrays local to this function
-	if (isArray() && getArrayCount() != -1)
-	{
-		setAddress(value);
-	}
-	else
-	{
-	       llvm::IRBuilder<> builder(ctx.mBlock);
-	       builder.CreateStore(value, getAddress());
-	}
+	ctx.mSSA.writeVariable(this, ctx.mBlock, value);
 }
 
 SymbolTable::SymbolTable() noexcept
@@ -311,18 +290,7 @@ void SymbolTable::ScopeTable::emitIR(CodeContext& ctx)
 			// Now write this GEP and save it for this identifier
 			ident->writeTo(ctx, decl);
 		}
-		else
-		{
-			// PA5: Remove this else case
-            if (ident->getAddress())
-            {
-                auto allocated = build.CreateAlloca(ident->llvmType(ctx.mGlobal));
-                build.CreateStore(ident->getAddress(), allocated);
-                ident->setAddress(allocated);
-            }
-            else
-                ident->setAddress(build.CreateAlloca(ident->llvmType(ctx.mGlobal)));
-		}
+		// removed else case
 	}
 
 	// Now emit all the variables in the child scope tables

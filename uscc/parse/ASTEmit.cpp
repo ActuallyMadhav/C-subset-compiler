@@ -138,10 +138,10 @@ AST_EMIT(ASTFunction)
 			// (Technically, iter actually has the value of the
 			// arg, not its address...but we will use the address
 			// member for this value)
-			argIdent.setAddress(iter);
+			// argIdent.setAddress(iter);   // commented out
 
 			// PA5: Write to this identifier
-			// argIdent.writeTo(ctx, iter);
+			argIdent.writeTo(ctx, iter);
 
 			++i;
 			++iter;
@@ -679,10 +679,15 @@ AST_EMIT(ASTIfStmt)
 
     auto thenBody = BasicBlock::Create(ctx.mGlobal, "if.then", ctx.mFunc);
     auto end = BasicBlock::Create(ctx.mGlobal, "if.end", ctx.mFunc);
+
+    ctx.mSSA.addBlock(end);
+
     if (mElseStmt)
     {
         auto elseBody = BasicBlock::Create(ctx.mGlobal, "if.else", ctx.mFunc);
         builder.CreateCondBr(value, thenBody, elseBody);
+
+        ctx.mSSA.addBlock(elseBody, true);
 
         ctx.mBlock = elseBody;
         mElseStmt->emitIR(ctx);
@@ -693,16 +698,22 @@ AST_EMIT(ASTIfStmt)
             builderElse.CreateBr(end);
         }
     }
-    else
+    else{
         builder.CreateCondBr(value, thenBody, end);
+    }
 
+    ctx.mSSA.addBlock(thenBody, true); 
+        
     ctx.mBlock = thenBody;
+
     mThenStmt->emitIR(ctx);
     if (!ctx.mBlock->getTerminator())
     {
         IRBuilder<> builderThen(ctx.mBlock);
         builderThen.CreateBr(end);
     }
+
+    ctx.mSSA.sealBlock(end);
 
     ctx.mBlock = end;
 
@@ -713,6 +724,8 @@ AST_EMIT(ASTWhileStmt)
 {
 	// PA5: Add mSSA
     auto condBlock = BasicBlock::Create(ctx.mGlobal, "while.cond", ctx.mFunc);
+
+    ctx.mSSA.addBlock(condBlock);
 
     IRBuilder<> builder(ctx.mBlock);
     builder.CreateBr(condBlock); // unconditional branch in predecessor
@@ -727,6 +740,9 @@ AST_EMIT(ASTWhileStmt)
     auto endBlock = BasicBlock::Create(ctx.mGlobal, "while.end", ctx.mFunc);
     builderCond.CreateCondBr(value, body, endBlock); // conditional branch in while.cond
 
+    ctx.mSSA.addBlock(body, true);
+    ctx.mSSA.addBlock(endBlock);
+
     ctx.mBlock = body;
 
     // Push the continue/break targets
@@ -739,8 +755,14 @@ AST_EMIT(ASTWhileStmt)
     ctx.mContinueBlocks.pop();
     ctx.mBreakBlocks.pop();
 
-    IRBuilder<> builderBody(ctx.mBlock);
-    builderBody.CreateBr(condBlock);
+    if(!ctx.mBlock->getTerminator()){
+        IRBuilder<> builderBody(ctx.mBlock);
+        builderBody.CreateBr(condBlock);
+    }
+
+    ctx.mSSA.sealBlock(condBlock);
+    ctx.mSSA.sealBlock(endBlock);
+
     ctx.mBlock = endBlock;
 
 	return nullptr;
