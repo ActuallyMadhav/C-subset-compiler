@@ -1,0 +1,29 @@
+// opt17.usc
+// Tests dead block removal (else-if chain inside a do-while loop)
+
+int main()
+{
+	int level = 2;
+	int i = 0;
+	int result = 0;
+
+	do
+	{
+		if (level == 1)
+		{
+			result = result + 1;
+		}
+		else if (level == 2)
+		{
+			result = result + 10;
+		}
+		else
+		{
+			result = result + 100;
+		}
+		++i;
+	} while (i < 3);
+
+	printf("%d\n", result);
+	return 0;
+}

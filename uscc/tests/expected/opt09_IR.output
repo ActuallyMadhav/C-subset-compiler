@@ -1,0 +1,37 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @main() {
+entry:
+  %array = alloca [2 x i32], align 8
+  %0 = getelementptr inbounds [2 x i32], ptr %array, i32 0, i32 0
+  %1 = getelementptr inbounds i32, ptr %0, i32 0
+  store i32 4, ptr %1, align 4
+  %2 = getelementptr inbounds i32, ptr %0, i32 1
+  store i32 6, ptr %2, align 4
+  %3 = getelementptr inbounds i32, ptr %0, i32 0
+  %4 = load i32, ptr %3, align 4
+  %mul = mul i32 %4, 3
+  %sub = sub i32 %mul, 1
+  br label %dowhile.body
+
+dowhile.body:                                     ; preds = %dowhile.cond, %entry
+  %Phi1 = phi i32 [ %inc, %dowhile.cond ], [ 0, %entry ]
+  %5 = call i32 (ptr, ...) @printf(ptr @.str, i32 %sub)
+  %inc = add i32 %Phi1, 1
+  br label %dowhile.cond
+
+dowhile.cond:                                     ; preds = %dowhile.body
+  %lt = icmp slt i32 %inc, 3
+  br i1 %lt, label %dowhile.body, label %dowhile.end
+
+dowhile.end:                                      ; preds = %dowhile.cond
+  %6 = getelementptr inbounds i32, ptr %0, i32 1
+  %7 = load i32, ptr %6, align 4
+  %8 = call i32 (ptr, ...) @printf(ptr @.str, i32 %7)
+  ret i32 0
+}

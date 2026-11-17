@@ -1,0 +1,35 @@
+// opt16.usc
+// Nested LICM test with for, while and do-while loops
+
+int grid(int rows, int cols, int scale)
+{
+	int r;
+	int total = 0;
+
+	for (r = 0; r < rows; ++r)
+	{
+		int c = 0;
+		int rowBase = r * scale;
+
+		while (c < cols)
+		{
+			int k = 0;
+
+			do
+			{
+				total = total + (rowBase + scale * 2 + c);
+				++k;
+			} while (k < 2);
+
+			++c;
+		}
+	}
+
+	return total;
+}
+
+int main()
+{
+	printf("%d\n", grid(2, 3, 5));
+	return 0;
+}

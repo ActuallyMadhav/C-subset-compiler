@@ -1,0 +1,27 @@
+// opt19.usc
+// Tests dead block removal (nested if inside a branch that is never taken)
+
+int main()
+{
+	int debug = 0;
+	int result = 1;
+	int array[2];
+	array[0] = 3;
+	array[1] = 4;
+
+	if (debug)
+	{
+		int total = array[0] + array[1];
+		if (total > 5)
+		{
+			result = total;
+		}
+		else
+		{
+			result = total + 1;
+		}
+	}
+
+	printf("%d\n", result);
+	return 0;
+}

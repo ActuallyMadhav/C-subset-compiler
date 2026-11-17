@@ -1,0 +1,26 @@
+// opt10.usc
+// LICM test where a division must stay inside the loop
+
+int average(int total, int count, int rounds)
+{
+	int i;
+	int result = 0;
+
+	for (i = 0; i < rounds; ++i)
+	{
+		int twice = total * 2;
+		if (count != 0)
+		{
+			result = result + twice / count;
+		}
+	}
+
+	return result;
+}
+
+int main()
+{
+	printf("%d\n", average(30, 0, 3));
+	printf("%d\n", average(30, 5, 3));
+	return 0;
+}

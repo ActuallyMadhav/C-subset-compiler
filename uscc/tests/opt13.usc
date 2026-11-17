@@ -1,0 +1,16 @@
+// opt13.usc
+// Tests constant branch folding (do-while loop that runs once)
+
+int main()
+{
+	int again = 0;
+	int count = 0;
+
+	do
+	{
+		count = count + 5;
+		printf("%d\n", count);
+	} while (again);
+
+	return 0;
+}

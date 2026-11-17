@@ -1,0 +1,18 @@
+// opt11.usc
+// LICM test where an array read must stay inside the loop
+
+int main()
+{
+	int i;
+	int array[2];
+	array[0] = 1;
+	array[1] = 10;
+
+	for (i = 0; i < 4; ++i)
+	{
+		array[0] = array[0] + array[1];
+	}
+
+	printf("%d\n", array[0]);
+	return 0;
+}

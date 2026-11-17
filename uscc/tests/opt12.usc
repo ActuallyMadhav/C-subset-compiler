@@ -1,0 +1,21 @@
+// opt12.usc
+// Tests dead block removal (inside a for loop, with continue)
+
+int main()
+{
+	int skip = 0;
+	int total = 0;
+	int i;
+
+	for (i = 0; i < 5; ++i)
+	{
+		if (skip)
+		{
+			continue;
+		}
+		total = total + i;
+	}
+
+	printf("%d\n", total);
+	return 0;
+}

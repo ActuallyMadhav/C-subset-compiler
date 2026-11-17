@@ -1,0 +1,35 @@
+ifeq ($(OS),Windows_NT)
+EXEC = uscc.exe
+else
+EXEC = uscc
+endif
+
+ifeq ($(OS),Windows_NT)
+CXX = g++
+else
+CXX = g++
+endif
+
+USCC_DIR     := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+LLVM_CONFIG  ?= $(USCC_DIR)/../llvm/bin/llvm-config
+
+LLVM_CXXFLAGS := $(shell $(LLVM_CONFIG) --cxxflags)
+LLVM_LDFLAGS  := $(shell $(LLVM_CONFIG) --ldflags)
+LLVM_SYSLIBS  := $(shell $(LLVM_CONFIG) --system-libs)
+LLVM_LIBS     := $(shell $(LLVM_CONFIG) --libs core support irreader bitwriter analysis transformutils scalaropts instcombine asmprinter mc mcparser codegen selectiondag x86 x86codegen x86asmparser x86desc x86info)
+
+CXXFLAGS = -std=c++17 -fexceptions -frtti
+
+DBGFLAGS =  -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS
+
+LLVM_CXXFLAGS_FILTERED := $(filter-out -std=% -fno-rtti -fno-exceptions -O3 -O2 -O1 -O0,$(LLVM_CXXFLAGS))
+CXXFLAGS += $(LLVM_CXXFLAGS_FILTERED)
+
+LLVM_LIBS_EXTRA := $(shell $(LLVM_CONFIG) --libs irreader bitreader asmparser)
+LDFLAGS = -lcurses -ldl -lpthread $(LLVM_LDFLAGS) $(LLVM_LIBS) $(LLVM_LIBS_EXTRA) $(LLVM_SYSLIBS)
+
+WFLAGS = -Woverloaded-virtual -Wcast-qual
+
+CXXFLAGS += $(WFLAGS) $(DBGFLAGS)
+
+DEBUG = 1

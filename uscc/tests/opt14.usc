@@ -1,0 +1,34 @@
+// opt14.usc
+// LICM test with a switch statement inside a for loop
+
+int pick(int mode, int base)
+{
+	int i;
+	int total = 0;
+
+	for (i = 0; i < 4; ++i)
+	{
+		switch (mode)
+		{
+			case 1:
+				total = total + base * 3;
+				break;
+			case 2:
+				total = total + base + 7;
+				break;
+			default:
+				total = total + i;
+				break;
+		}
+	}
+
+	return total;
+}
+
+int main()
+{
+	printf("%d\n", pick(1, 2));
+	printf("%d\n", pick(2, 2));
+	printf("%d\n", pick(3, 2));
+	return 0;
+}

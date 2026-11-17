@@ -1,0 +1,39 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @main() {
+entry:
+  br label %while.cond
+
+while.cond:                                       ; preds = %if.end3, %if.then, %entry
+  %Phi1 = phi i32 [ %inc, %if.end3 ], [ %inc, %if.then ], [ 0, %entry ]
+  %Phi4 = phi i32 [ %add, %if.end3 ], [ %Phi4, %if.then ], [ 0, %entry ]
+  br label %while.body
+
+while.body:                                       ; preds = %while.cond
+  %inc = add i32 %Phi1, 1
+  %eq = icmp eq i32 %inc, 2
+  br i1 %eq, label %if.then, label %if.end
+
+while.end:                                        ; preds = %if.then2
+  %0 = call i32 (ptr, ...) @printf(ptr @.str, i32 %Phi4)
+  ret i32 0
+
+if.then:                                          ; preds = %while.body
+  br label %while.cond
+
+if.end:                                           ; preds = %while.body
+  %gt = icmp sgt i32 %inc, 4
+  br i1 %gt, label %if.then2, label %if.end3
+
+if.then2:                                         ; preds = %if.end
+  br label %while.end
+
+if.end3:                                          ; preds = %if.end
+  %add = add i32 %Phi4, %inc
+  br label %while.cond
+}

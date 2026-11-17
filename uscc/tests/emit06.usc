@@ -1,0 +1,28 @@
+// emit06.usc
+// Tests constant branch folding and LICM
+// (array writes inside a while loop)
+// Expected output:
+// 103
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int main() {
+    int constant = 100;
+    int i = 0;
+    int arr[4];
+    while (i < 4) {
+        arr[i] = constant + i;
+        i = i + 1;
+        if (constant == 100){
+	   arr[2] = 5;
+	}
+    }
+    printf("%d\n", arr[3]);
+    return 0;
+}
+

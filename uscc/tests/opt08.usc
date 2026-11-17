@@ -1,0 +1,22 @@
+// opt08.usc
+// LICM test with a for loop
+
+int sum(int n, int k)
+{
+	int total = 0;
+	int i;
+
+	for (i = 0; i < n; ++i)
+	{
+		int step = k * 2 + 1;
+		total = total + step;
+	}
+
+	return total;
+}
+
+int main()
+{
+	printf("%d\n", sum(4, 5));
+	return 0;
+}

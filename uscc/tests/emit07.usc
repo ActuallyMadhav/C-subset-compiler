@@ -1,0 +1,28 @@
+// emit07.usc
+// Tests constant branch folding (while loop inside the taken branch)
+// Expected output:
+// 5
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+
+int main() {
+    int x = 5;
+    int y;
+    if (x == 5) {
+        y = 1;
+        while (y < 5) {
+            y = y + 1;
+        }
+    } else {
+        y = 0;
+    }
+    printf("%d\n", y);
+    return 0;
+}
+

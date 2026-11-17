@@ -1,0 +1,59 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @pick(i32 %mode, i32 %base) {
+entry:
+  %mul = mul i32 %base, 3
+  br label %for.cond
+
+for.cond:                                         ; preds = %for.step, %entry
+  %Phi = phi i32 [ %inc, %for.step ], [ 0, %entry ]
+  %Phi4 = phi i32 [ %Phi9, %for.step ], [ 0, %entry ]
+  %lt = icmp slt i32 %Phi, 4
+  br i1 %lt, label %for.body, label %for.end
+
+for.body:                                         ; preds = %for.cond
+  switch i32 %mode, label %switch.default [
+    i32 1, label %switch.case
+    i32 2, label %switch.case2
+  ]
+
+for.step:                                         ; preds = %switch.end
+  %inc = add i32 %Phi, 1
+  br label %for.cond
+
+for.end:                                          ; preds = %for.cond
+  ret i32 %Phi4
+
+switch.end:                                       ; preds = %switch.default, %switch.case2, %switch.case
+  %Phi9 = phi i32 [ %add7, %switch.default ], [ %add6, %switch.case2 ], [ %add, %switch.case ]
+  br label %for.step
+
+switch.case:                                      ; preds = %for.body
+  %add = add i32 %Phi4, %mul
+  br label %switch.end
+
+switch.case2:                                     ; preds = %for.body
+  %add5 = add i32 %Phi4, %base
+  %add6 = add i32 %add5, 7
+  br label %switch.end
+
+switch.default:                                   ; preds = %for.body
+  %add7 = add i32 %Phi4, %Phi
+  br label %switch.end
+}
+
+define i32 @main() {
+entry:
+  %call = call i32 @pick(i32 1, i32 2)
+  %0 = call i32 (ptr, ...) @printf(ptr @.str, i32 %call)
+  %call1 = call i32 @pick(i32 2, i32 2)
+  %1 = call i32 (ptr, ...) @printf(ptr @.str, i32 %call1)
+  %call2 = call i32 @pick(i32 3, i32 2)
+  %2 = call i32 (ptr, ...) @printf(ptr @.str, i32 %call2)
+  ret i32 0
+}

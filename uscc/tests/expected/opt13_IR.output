@@ -1,0 +1,22 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @main() {
+entry:
+  br label %dowhile.body
+
+dowhile.body:                                     ; preds = %entry
+  %add = add i32 0, 5
+  %0 = call i32 (ptr, ...) @printf(ptr @.str, i32 %add)
+  br label %dowhile.cond
+
+dowhile.cond:                                     ; preds = %dowhile.body
+  br label %dowhile.end
+
+dowhile.end:                                      ; preds = %dowhile.cond
+  ret i32 0
+}

@@ -1,0 +1,18 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @main() {
+entry:
+  br label %for.cond
+
+for.cond:                                         ; preds = %entry
+  br label %for.end
+
+for.end:                                          ; preds = %for.cond
+  %0 = call i32 (ptr, ...) @printf(ptr @.str, i32 3)
+  ret i32 0
+}

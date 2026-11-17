@@ -1,0 +1,17 @@
+// opt18.usc
+// Tests dead block removal (for loop that never runs)
+
+int main()
+{
+	int debug = 0;
+	int count = 3;
+	int i;
+
+	for (i = 0; debug; ++i)
+	{
+		count = count + i;
+	}
+
+	printf("%d\n", count);
+	return 0;
+}

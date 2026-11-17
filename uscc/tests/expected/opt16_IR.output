@@ -1,0 +1,65 @@
+; ModuleID = 'main'
+source_filename = "main"
+
+@.str = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+
+declare i32 @printf(ptr, ...)
+
+define i32 @grid(i32 %rows, i32 %cols, i32 %scale) {
+entry:
+  %mul8 = mul i32 %scale, 2
+  br label %for.cond
+
+for.cond:                                         ; preds = %for.step, %entry
+  %Phi1 = phi i32 [ %inc24, %for.step ], [ 0, %entry ]
+  %Phi19 = phi i32 [ %Phi16, %for.step ], [ 0, %entry ]
+  %lt = icmp slt i32 %Phi1, %rows
+  br i1 %lt, label %for.body, label %for.end
+
+for.body:                                         ; preds = %for.cond
+  %mul = mul i32 %Phi1, %scale
+  %add = add i32 %mul, %mul8
+  br label %while.cond
+
+for.step:                                         ; preds = %while.end
+  %inc24 = add i32 %Phi1, 1
+  br label %for.cond
+
+for.end:                                          ; preds = %for.cond
+  ret i32 %Phi19
+
+while.cond:                                       ; preds = %dowhile.end, %for.body
+  %Phi4 = phi i32 [ %inc18, %dowhile.end ], [ 0, %for.body ]
+  %Phi16 = phi i32 [ %add12, %dowhile.end ], [ %Phi19, %for.body ]
+  %lt5 = icmp slt i32 %Phi4, %cols
+  br i1 %lt5, label %while.body, label %while.end
+
+while.body:                                       ; preds = %while.cond
+  %add10 = add i32 %add, %Phi4
+  br label %dowhile.body
+
+while.end:                                        ; preds = %while.cond
+  br label %for.step
+
+dowhile.body:                                     ; preds = %dowhile.cond, %while.body
+  %Phi11 = phi i32 [ %add12, %dowhile.cond ], [ %Phi16, %while.body ]
+  %Phi13 = phi i32 [ %inc, %dowhile.cond ], [ 0, %while.body ]
+  %add12 = add i32 %Phi11, %add10
+  %inc = add i32 %Phi13, 1
+  br label %dowhile.cond
+
+dowhile.cond:                                     ; preds = %dowhile.body
+  %lt14 = icmp slt i32 %inc, 2
+  br i1 %lt14, label %dowhile.body, label %dowhile.end
+
+dowhile.end:                                      ; preds = %dowhile.cond
+  %inc18 = add i32 %Phi4, 1
+  br label %while.cond
+}
+
+define i32 @main() {
+entry:
+  %call = call i32 @grid(i32 2, i32 3, i32 5)
+  %0 = call i32 (ptr, ...) @printf(ptr @.str, i32 %call)
+  ret i32 0
+}

@@ -1,0 +1,28 @@
+// emit03.usc
+// Tests constant branch folding (true case, inside a while loop)
+// Expected output:
+// 65
+//---------------------------------------------------------
+// Copyright (c) 2014, Sanjay Madhav
+// All rights reserved.
+//
+// This file is distributed under the BSD license.
+// See LICENSE.TXT for details.
+//---------------------------------------------------------
+
+int main() {
+    int x = 3;
+    int i = 0;
+    int result = 0;
+    int y = 6;
+    while (i < 5) {
+        result = x + result;
+        i = i + 1;
+        if (x == 3) {
+            result = result + 10;
+        }
+    }
+    printf("%d\n", result);
+    return 0;
+}
+
