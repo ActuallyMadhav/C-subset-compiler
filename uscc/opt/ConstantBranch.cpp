@@ -36,6 +36,7 @@ bool ConstantBranch::runOnFunction(Function& F)
 	bool changed = false;
 	
 	// PA6: Implement
+	// copied loop from ConstantOpps.cpp
 	// Make a set that contains the instructions we'll remove
 	std::set<BranchInst*> removeSet;
 	
