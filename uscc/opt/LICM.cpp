@@ -42,6 +42,13 @@ bool LICM::runOnLoop(llvm::Loop *L, llvm::LPPassManager &LPM)
 void LICM::getAnalysisUsage(AnalysisUsage &Info) const
 {
 	// PA6: Implement
+	// LICM does not modify the CFG
+	Info.setPreservesCFG();
+	// Execute after dead blocks have been removed
+	Info.addRequired<DeadBlocks>();
+	// Use the built-in Dominator tree and loop info passes
+	Info.addRequired<DominatorTreeWrapperPass>();
+	Info.addRequired<LoopInfoWrapperPass>();
 }
 
 } // opt
